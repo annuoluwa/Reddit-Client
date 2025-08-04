@@ -1,0 +1,33 @@
+.postData{
+    background-color: #111827;
+}
+.postTitle{
+color: #fafafa;
+}
+.postAuthor{
+color: #fff
+}
+
+.postSelfText{
+    color: #a7c1f7
+}
+
+.postImage{
+    width: 150px;
+}
+
+.comments{
+color: #ebf1fd
+}
+
+.commentUL{
+padding: 0 1.5rem 1rem 2rem;
+text-align: justify;
+list-style: none;
+margin-top: 0.2rem;
+color: #7ea5f3;
+}
+
+.commentAuthor{
+color: #f6f9fd
+}

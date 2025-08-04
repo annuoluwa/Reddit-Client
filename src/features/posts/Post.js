@@ -1,6 +1,6 @@
  import React from "react";
  import { Link } from "react-router-dom";
-
+import styles from './post.module.css';
  function Post({post}){
   if (!post) return null;
 const {
@@ -13,21 +13,30 @@ const {
   num_comments,
 } = post;
 
+//const isValidImage = post.thumbnail && post.thumbnail.startsWith('http');
+//const imageUrl = isValidImage ? post.thumbnail : '/No-image.png'
   
 return (
-    <div className="post-card">
-    <Link to={`/post/${id}`}state={{subreddit}}>
+    <div className= {styles.postCard}>
+    <Link to={`/post/${id}`}state={{subreddit}} className={styles.postLink}>
 
-                    <h3>{title}</h3>
+                    <h3 className={styles.postTitle}>{title}</h3>
 
-                 {thumbnail && thumbnail.startsWith("http") && (
+               
+                   {/*Only render thumbnail if it's a valid URL*/}
+  <img className={styles.postImage}
+  src={post.thumbnail}
+  alt="Post thumbnail"
+  onError={(e) => {
+    e.target.onerror = null;
+    e.target.src = '/no-image.png';
+  }}
+/>
 
-                    //Only render thumbnail if it's a valid URL
-  <img src={thumbnail} alt="post thumbnail" />
-)}
-                    <p>Posted by {author} in r/{subreddit}</p>
 
-                    <p>{score} | {num_comments}</p>
+                    <p className={styles.para}>Posted by {author} in r/{subreddit}</p>
+
+                    <p className={styles.postScore}>{score} | {num_comments}</p>
                 </Link>
        </div>         
 )

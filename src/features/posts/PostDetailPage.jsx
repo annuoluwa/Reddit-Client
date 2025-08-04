@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-
+import styles from './postDetailPage.module.css';
 function PostDetailPage() {
     const {postId} = useParams(); //grab postId from url
     const [postData, setPostData] = useState(null);
@@ -54,22 +54,27 @@ fetchPostDetails()
 
 
         return(
-            <>
-            <h2>{postData.title}</h2>
-            <p>Author: {postData.author}</p>
-            <p>{postData.selftext}</p>
-            {postData.thumbnail && postData.thumbnail.startsWith("http") && (
-            <img src={postData.thumbnail} alt=''/> //conditionally render the image only if valid
-)}
-            <h3>Comments:</h3>
-            <ul>
+            < div className={styles.postData}>
+            <h2 className= {styles.postTitle}>{postData.title}</h2>
+            <p className= {styles.postAuthor}>Author: {postData.author}</p>
+            <p className= {styles.postSelfText}>{postData.selftext}</p>
+           <img className={styles.postImage}
+  src={postData.thumbnail}
+  alt="PostData thumbnail"
+  onError={(e) => {
+    e.target.onerror = null;
+    e.target.src = '/no-image.png';
+  }}
+/>
+            <h3 className= {styles.comments}>Comments:</h3>
+            <ul className= {styles.commentUL}>
                 {comments.map((comment) => comment.kind === 't1' ? (
-                    <li key={comment.data.id}>
-                        <strong>{comment.data.author}</strong>: {comment.data.body}
+                    <li key={comment.data.id} className= {styles.commentUL}>
+                        <strong className={styles.commentAuthor}>{comment.data.author}</strong>: {comment.data.body}
                     </li>
                 ) : null)}
             </ul>
-            </>
+            </div>
         );
     }
     
