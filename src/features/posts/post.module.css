@@ -10,7 +10,7 @@
 }
 
 .postImage {
-max-width: 20%;
+width: 100px;
 height: auto;
 
 
@@ -27,7 +27,7 @@ margin-bottom: 0.5rem;
 .postLink{
 text-decoration: none;
 display: block;
-color: #6387ba;
+color: #7aa9e6;
 transition: background-color 0.3s ease;
 }
 

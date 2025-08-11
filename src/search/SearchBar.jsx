@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-
+import styles from './search.module.css'
 function SearchBar({searchTerm, setSearchTerm}) {
     const[inputValue, setInputValue] = useState('');
     const timer = useRef();
@@ -26,15 +26,17 @@ useEffect(() => { //cleanup of timer to prevent memory leaks.
     
 
     return(
-        <>
+        <div 
+        className={styles.searchBar}>
         <input 
+        className={styles.searchBar}
         type="text" 
         name="text" 
         value={inputValue} 
         onChange={handleChange}
         placeholder="Search posts"/> 
-        
-          </>
+        <button type="submit" aria-label="Search" className={styles.button}>🔍</button>
+          </div>
     )
 }
 

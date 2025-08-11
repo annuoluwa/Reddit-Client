@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PostLists from "./PostLists";
-import SearchBar from "./SearchBar"; 
+import SearchBar from "../../search/SearchBar"; 
 import SubredditSelector from "./SubredditSelector";
 import { fetchPosts, setCurrentSubreddit } from "./postsSlice";
 import { useDispatch } from "react-redux";

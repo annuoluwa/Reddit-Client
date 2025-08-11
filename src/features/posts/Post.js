@@ -16,6 +16,22 @@ const {
 //const isValidImage = post.thumbnail && post.thumbnail.startsWith('http');
 //const imageUrl = isValidImage ? post.thumbnail : '/No-image.png'
   
+
+  const invalidThumbValues = ['self', 'default', 'nsfw', 'image', ''];
+
+  const isValidImageUrl = (url) => {
+    if (!url) return false;
+    if (invalidThumbValues.includes(url)) return false;
+    return (
+      url.startsWith('http://') ||
+      url.startsWith('https://') ||
+      url.startsWith('//')
+    );
+  };
+
+  const imageUrl = isValidImageUrl(thumbnail)
+    ? (thumbnail.startsWith('//') ? 'https:' + thumbnail : thumbnail)
+    : process.env.PUBLIC_URL + '/no-image.png';
 return (
     <div className= {styles.postCard}>
     <Link to={`/post/${id}`}state={{subreddit}} className={styles.postLink}>
@@ -25,12 +41,14 @@ return (
                
                    {/*Only render thumbnail if it's a valid URL*/}
   <img className={styles.postImage}
-  src={post.thumbnail}
+  src={imageUrl}
   alt="Post thumbnail"
-  onError={(e) => {
-    e.target.onerror = null;
-    e.target.src = '/no-image.png';
+    onError={(e) => {
+    e.target.onerror = null; // Prevent infinite loop if fallback also fails
+    e.target.src = process.env.PUBLIC_URL + '/no-image.png';
   }}
+
+  
 />
 
 
