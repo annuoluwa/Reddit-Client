@@ -39,7 +39,7 @@ const handleViewMore = () => {
 
     } else if(showStatus === "succeeded"){
         //if fetch is successful, it maps over the post array and renders each post in a styled card
-        //post includes a title,, thumbnail(if available), author, subreddit, score and comment count. 
+        //post includes a title, thumbnail(if available), author, subreddit, score and comment count. 
         
         const uniquePosts = [...new Map(filteredPosts.map(post => [post.id, post])).values()];
 
