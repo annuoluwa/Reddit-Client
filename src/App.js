@@ -4,6 +4,8 @@ import PostsPage from './features/posts/PostPage';
 import PostDetailPage from './features/posts/PostDetailPage';
 import Footer from './features/footer/Footer';
 import Nav from './features/nav/Nav';
+import About from './features/about/About';
+
 
 function App() {
   return (
@@ -12,9 +14,8 @@ function App() {
       <Routes>
      <Route path='/'element={ <PostsPage /> } />
      <Route path = '/post/:postId' element={<PostDetailPage />} />
-     
-          </Routes>
-          
+     <Route path = '/about' element={<About />} />
+          </Routes> 
           <Footer />
          </div>
            
