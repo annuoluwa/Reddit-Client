@@ -6,7 +6,7 @@ function Nav() {
     return (
         <>
         <nav className={styles.nav}>
-            <img src="logo2.png" className={styles.logo}></img>
+            <img src="logo2.png" className={styles.logo} alt="Reddit-Client logo"></img>
            
             <Link className={styles.link} to ='/' >Home</Link>
 
