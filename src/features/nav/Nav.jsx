@@ -9,8 +9,8 @@ function Nav() {
             <img src="logo2.png" className={styles.logo}></img>
            
             <Link className={styles.link} to ='/' >Home</Link>
-            <Link className={styles.link} to ='#subreddit-select' >Explore</Link>
-            <Link className={styles.link}to ='#' >About</Link>
+
+            <Link className={styles.link}to ='/about'>About</Link>
         
         </nav>
         </>
