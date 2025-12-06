@@ -1,23 +1,39 @@
 import React from "react";
-//This component allows user to filter their desired posts via subreddits.
-function SubredditSelector({subreddit, setSubreddit}){
-const subreddits = ['all', 'annoucement', 'funny', 'AskReddit', 'gaming', 'worldnews', 'todayilearned', 'aww', 'Music', 'memes', 'movies', 'science', 'AIArt', 'antiwork' ]
+import styles from "./SubredditSelector.module.css";
 
-return (
-    <>
-    <select  //render a dropdown
-    value={subreddit} 
-    onChange = {(e) => setSubreddit(e.target.value)}
-    id="subreddit-select"
+function SubredditSelector({ subreddit, setSubreddit }) {
+  const subreddits = [
+    "all",
+    "announcement",
+    "funny",
+    "AskReddit",
+    "gaming",
+    "worldnews",
+    "todayilearned",
+    "aww",
+    "Music",
+    "memes",
+    "movies",
+    "science",
+    "AIArt",
+    "antiwork"
+  ];
+
+  return (
+    <select
+      value={subreddit}
+      onChange={(e) => setSubreddit(e.target.value)}
+      id="subreddit-select"
+      className={styles.subredditSelect}
     >
-        <option value="">-- Select Subreddit --</option>
-{subreddits.map((sub)=> (
-    <option key={sub} value={sub}> {sub} </option>
-))}
+      <option value="">-- Select Subreddit --</option>
+      {subreddits.map((sub) => (
+        <option key={sub} value={sub}>
+          {sub}
+        </option>
+      ))}
     </select>
-    </>
-)
+  );
 }
-
 
 export default SubredditSelector;

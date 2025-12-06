@@ -9,7 +9,7 @@ const fetchPosts = createAsyncThunk(
       const afterQuery = after ? `&after=${after}` : '';
      const url = `http://localhost:4000/reddit/${subreddit}?limit=${limit}${afterQuery}`;
 
-      console.log('Fetching from:', url); // ✅ confirm URL
+      console.log('Fetching from:', url); //
       const response = await fetch(url);
 
       if (!response.ok) {
@@ -17,7 +17,7 @@ const fetchPosts = createAsyncThunk(
       }
 
       const data = await response.json();
-      console.log('Fetched data:', data); // ✅ log full response
+      console.log('Fetched data:', data); // log full response
 
  
 if (data && (data.error || data.reason)) {
@@ -32,7 +32,7 @@ if (data && (data.error || data.reason)) {
     }
 
       return {
-         posts: data.data.children.map(child => child.data), // ✅ array of posts
+         posts: data.data.children.map(child => child.data), //  array of posts
          after: data.data.after, //pagination cursor token
          hasMore: Boolean(data.data.after)
       }
