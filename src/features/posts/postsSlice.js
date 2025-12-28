@@ -1,16 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Asyncthunk to take care of asychronous functions of the app
 const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
-  async ({subreddit, after = '', limit = 5}, {rejectWithValue}) => {
+  async ({subreddit, after = '', limit = 5, sort = 'hot'}, {rejectWithValue}) => {
     try {
       const afterQuery = after ? `&after=${after}` : '';
-     const url = `http://localhost:4000/reddit/${subreddit}?limit=${limit}${afterQuery}`;
+      const url = `https://www.reddit.com/r/${subreddit}/${sort}.json?limit=${limit}${afterQuery}`;
 
       console.log('Fetching from:', url); //
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          'User-Agent': 'web:reddit-client:v1.0.0'
+        }
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -26,7 +29,7 @@ if (data && (data.error || data.reason)) {
       }
 
 
- if (!data || !data.data || !Array.isArray(data.data.children)){
+ if (!data?.data?.children || !Array.isArray(data.data.children)){
       console.error('Unexpected response format:', data);
       throw new Error('Invalid data structure from Reddit API');
     }

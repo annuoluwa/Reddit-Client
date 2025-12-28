@@ -5,6 +5,7 @@ import PostDetailPage from './features/posts/PostDetailPage';
 import Footer from './features/footer/Footer';
 import Nav from './features/nav/Nav';
 import About from './features/about/About';
+import BackToTop from './components/BackToTop';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
      <Route path = '/about' element={<About />} />
           </Routes> 
           <Footer />
+          <BackToTop />
          </div>
            
   );
