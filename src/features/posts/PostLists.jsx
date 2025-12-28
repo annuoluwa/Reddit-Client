@@ -6,8 +6,6 @@ import LoadingSkeleton from "../../components/LoadingSkeleton";
 import EmptyState from "../../components/EmptyState";
 import styles from"./postLists.module.css";
 
-//PostLists component
-//This component fetches and displays Reddit posts on the homepage
 function PostLists({ searchTerm, subreddit }) {
   const dispatch = useDispatch();
   const postlists = useSelector(selectPosts);

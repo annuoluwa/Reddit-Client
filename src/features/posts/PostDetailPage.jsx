@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import styles from './postDetailPage.module.css';
+
 function PostDetailPage() {
-    const {postId} = useParams(); //grab postId from url
+    const {postId} = useParams();
     const [postData, setPostData] = useState(null);
     const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);

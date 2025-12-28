@@ -6,11 +6,14 @@ import Footer from './features/footer/Footer';
 import Nav from './features/nav/Nav';
 import About from './features/about/About';
 import BackToTop from './components/BackToTop';
+import LoadingBar from './components/LoadingBar';
+import KeyboardShortcuts from './components/KeyboardShortcuts';
 
 
 function App() {
   return (
     <div className="App">
+      <LoadingBar />
       <Nav /> 
       <Routes>
      <Route path='/'element={ <PostsPage /> } />
@@ -19,6 +22,7 @@ function App() {
           </Routes> 
           <Footer />
           <BackToTop />
+          <KeyboardShortcuts />
          </div>
            
   );

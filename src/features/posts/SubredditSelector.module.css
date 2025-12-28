@@ -8,9 +8,9 @@
 .subredditSelect {
     padding: 0.6rem 1rem;
     border-radius: 6px;
-    border: 2px solid #374151;
-    background-color: #1e2330;
-    color: #fafafa;
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
     font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -47,11 +47,12 @@
 .customInput {
     padding: 0.6rem 1rem;
     border-radius: 6px;
-    border: 2px solid #374151;
-    background-color: #1e2330;
-    color: #fafafa;
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
     font-size: 0.95rem;
     min-width: 200px;
+    transition: all 0.2s ease;
 }
 
 .customInput:focus {

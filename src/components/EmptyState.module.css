@@ -16,13 +16,13 @@
 .message {
   font-size: 1.3rem;
   font-weight: 600;
-  color: #d1d5db;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
 .hint {
   font-size: 0.95rem;
-  color: #6b7280;
+  color: var(--text-tertiary);
   max-width: 400px;
 }
 

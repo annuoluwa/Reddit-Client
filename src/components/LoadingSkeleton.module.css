@@ -1,5 +1,5 @@
 .skeletonCard {
-  background-color: #111827;
+  background-color: var(--bg-secondary);
   padding: 1rem;
   border-radius: 8px;
   max-width: 700px;
@@ -7,6 +7,7 @@
   display: flex;
   gap: 1rem;
   animation: pulse 1.5s ease-in-out infinite;
+  transition: background-color 0.3s ease;
 }
 
 @keyframes pulse {
@@ -25,14 +26,14 @@
 .skeletonCircle {
   width: 20px;
   height: 20px;
-  background-color: #1f2937;
+  background-color: var(--skeleton-bg);
   border-radius: 50%;
 }
 
 .skeletonText {
   width: 30px;
   height: 15px;
-  background-color: #1f2937;
+  background-color: var(--skeleton-bg);
   border-radius: 4px;
 }
 

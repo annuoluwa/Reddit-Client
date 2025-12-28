@@ -5,24 +5,22 @@ function SearchBar({searchTerm, setSearchTerm}) {
     const timer = useRef();
 
     const handleChange =(e) =>{
-
         setInputValue(e.target.value)
-        //debounce timer setup
-if (timer.current){
-    clearTimeout(timer.current);
-}
-timer.current = setTimeout(() => { //300ms typical debounce delay to prevent unneccessary frequent update and excessive fecthes. 
-    setSearchTerm(e.target.value)
-}, 300);
+        if (timer.current){
+            clearTimeout(timer.current);
+        }
+        timer.current = setTimeout(() => {
+            setSearchTerm(e.target.value)
+        }, 300);
     };
 
-useEffect(() => { //cleanup of timer to prevent memory leaks.
-    return () => {
-      if (timer.current) {
-        clearTimeout(timer.current);
-      }
-    };
-  }, []);
+    useEffect(() => {
+        return () => {
+            if (timer.current) {
+                clearTimeout(timer.current);
+            }
+        };
+    }, []);
     
 
     return(
@@ -34,7 +32,8 @@ useEffect(() => { //cleanup of timer to prevent memory leaks.
         name="text" 
         value={inputValue} 
         onChange={handleChange}
-        placeholder="Search posts"/> 
+        placeholder="Search posts (Press / to focus)" 
+        aria-label="Search posts"/> 
         <button type="submit" aria-label="Search" className={styles.button}>🔍</button>
           </div>
     )

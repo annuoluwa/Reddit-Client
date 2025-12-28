@@ -2,8 +2,9 @@
  import { Link } from "react-router-dom";
 import styles from './post.module.css';
 import ImageModal from '../../components/ImageModal';
+import { useToast } from '../../context/ToastContext';
+import { useBookmarks } from '../../hooks/useBookmarks';
 
-// Utility to format relative time
 const getRelativeTime = (timestamp) => {
   const now = Date.now() / 1000;
   const diff = now - timestamp;
@@ -18,6 +19,8 @@ const getRelativeTime = (timestamp) => {
  function Post({post}){
   const [copied, setCopied] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const toast = useToast();
+  const { isBookmarked, toggleBookmark } = useBookmarks();
   
   if (!post) return null;
   
@@ -32,10 +35,6 @@ const {
   created_utc,
   permalink,
 } = post;
-
-//const isValidImage = post.thumbnail && post.thumbnail.startsWith('http');
-//const imageUrl = isValidImage ? post.thumbnail : '/No-image.png'
-  
 
   const invalidThumbValues = ['self', 'default', 'nsfw', 'image', ''];
 
@@ -58,6 +57,7 @@ const {
     const url = `https://reddit.com${permalink}`;
     navigator.clipboard.writeText(url);
     setCopied(true);
+    toast.success('Link copied to clipboard!');
     setTimeout(() => setCopied(false), 2000);
   };
   const handleImageClick = (e) => {
@@ -65,6 +65,12 @@ const {
     if (isValidImageUrl(thumbnail) && !invalidThumbValues.includes(thumbnail)) {
       setShowModal(true);
     }
+  };
+
+  const handleBookmark = (e) => {
+    e.preventDefault();
+    toggleBookmark(post);
+    toast.success(isBookmarked(post.id) ? 'Removed from bookmarks' : 'Added to bookmarks');
   };
 
   return (
@@ -110,6 +116,13 @@ const {
           </div>
           
           <div className={styles.actions}>
+            <button 
+              onClick={handleBookmark} 
+              className={`${styles.actionBtn} ${isBookmarked(id) ? styles.bookmarked : ''}`}
+              title={isBookmarked(id) ? 'Remove bookmark' : 'Bookmark post'}
+            >
+              {isBookmarked(id) ? '🔖 Saved' : '📌 Save'}
+            </button>
             <Link to={`/post/${id}`} state={{subreddit}} className={styles.actionBtn}>
               💬 {num_comments} comments
             </Link>

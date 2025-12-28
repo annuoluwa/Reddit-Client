@@ -5,13 +5,16 @@ import SubredditSelector from "./SubredditSelector";
 import { fetchPosts, setCurrentSubreddit } from "./postsSlice";
 import { useDispatch } from "react-redux";
 import styles from "./PostPage.module.css";
-
-//this parent component hold the search state and renders both SearchBar and PostLists
+import { useKeyboardShortcuts } from "../../hooks/useKeyboardShortcuts";
+import { useTheme } from "../../context/ThemeContext";
+import { useToast } from "../../context/ToastContext";
 
 function PostsPage(){
 const [searchTerm, setSearchTerm] = useState('');
 const [subreddit, setSubreddit] = useState('all');
 const [sortType, setSortType] = useState('hot');
+const { toggleTheme } = useTheme();
+const toast = useToast();
 
  const dispatch = useDispatch();
 
@@ -20,6 +23,24 @@ const [sortType, setSortType] = useState('hot');
     dispatch(setCurrentSubreddit(currentSubreddit));
     dispatch(fetchPosts({ subreddit: currentSubreddit, after: null, limit: 5, sort: sortType }));
   }, [dispatch, subreddit, sortType]);
+
+  useKeyboardShortcuts({
+    onFocusSearch: () => {
+      const searchInput = document.querySelector('input[type="text"]');
+      if (searchInput) {
+        searchInput.focus();
+        toast.info('Press ESC to exit search');
+      }
+    },
+    onToggleTheme: () => {
+      toggleTheme();
+      toast.info('Theme toggled');
+    },
+    onRefresh: () => {
+      dispatch(fetchPosts({ subreddit, after: null, limit: 5, sort: sortType }));
+      toast.info('Posts refreshed');
+    },
+  });
 
 return(
     <>

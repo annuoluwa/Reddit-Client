@@ -96,14 +96,13 @@
 }
 
 .endMessage {
-  color: #9ca3af;
+  color: var(--text-secondary);
   font-size: 1.1rem;
   text-align: center;
   padding: 2rem 0;
   font-weight: 600;
 }
 
-/* MOBILE RESPONSIVENESS*/
 @media (max-width: 600px) {
   .postListContainer {
     padding: 1rem;
