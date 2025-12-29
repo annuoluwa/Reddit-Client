@@ -1,0 +1,11 @@
+[build]
+  # Tell Netlify where your serverless functions are
+  functions = "backend"
+  # Tell Netlify where your React build output will be
+  publish = "frontend/build"
+
+# Redirect all API requests to your Lambda function
+[[redirects]]
+  from = "/api/*"                      # Front-end fetches /api/...
+  to = "/.netlify/functions/lambda/:splat"
+  status = 200

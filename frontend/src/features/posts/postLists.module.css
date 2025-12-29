@@ -1,0 +1,65 @@
+.postListContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 900px;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.postListContainer p {
+  color: #fafafa;
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.viewMoreButton {
+  background-color: #ff6600; 
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 2rem 0;
+}
+
+.viewMoreButton:hover:not(:disabled) {
+  background-color: #ff8500;
+  box-shadow: 0 0 10px rgba(255, 102, 0, 0.7);
+  transform: translateY(-2px);
+}
+
+.viewMoreButton:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* MOBILE RESPONSIVENESS*/
+@media (max-width: 600px) {
+  .postListContainer {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .viewMoreButton {
+    width: 100%;
+    padding: 0.7rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .postListContainer {
+    padding: 0.8rem;
+  }
+
+  .viewMoreButton {
+    font-size: 0.9rem;
+  }
+}
