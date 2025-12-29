@@ -7,8 +7,8 @@ publish = "build"
 # Command to build React app
 command = "npm install && npm run build"
 
-# Relative to base ("frontend"), so "../backend" points to backend folder
-functions = "../backend"
+# Functions directory should be relative to repo root
+functions = "backend"
 
 [[redirects]]
 # Redirect all API calls to lambda function
