@@ -15,3 +15,6 @@ functions = "../backend"
 from = "/api/*"
 to = "/.netlify/functions/lambda/:splat"
 status = 200
+
+[[plugins]]
+package = "@netlify/plugin-functions-install-core"
