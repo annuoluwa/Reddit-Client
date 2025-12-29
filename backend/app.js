@@ -1,3 +1,13 @@
+// Catch-all 404 handler for unmatched routes (always returns JSON)
+app.use((req, res) => {
+  res.status(404).json({ error: 'Not found', path: req.path });
+});
+
+// Error handling middleware (always returns JSON)
+app.use((err, req, res, next) => {
+  console.error('Server error:', err);
+  res.status(500).json({ error: 'Server error', details: err.message });
+});
 
 const express = require('express');
 const cors = require('cors');
