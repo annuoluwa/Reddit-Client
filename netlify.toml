@@ -1,17 +1,11 @@
 # netlify.toml
 [build]
-# Run build inside frontend folder
 base = "frontend"
-# The folder deploys after build
 publish = "build"
-# Command to build React app
 command = "npm install && npm run build"
-
-# Functions directory should be relative to repo root
 functions = "backend"
 
 [[redirects]]
-# Redirect all API calls to lambda function
 from = "/api/*"
 to = "/.netlify/functions/lambda/:splat"
 status = 200
