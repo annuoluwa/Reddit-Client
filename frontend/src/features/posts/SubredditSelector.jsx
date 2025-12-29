@@ -4,34 +4,30 @@ import styles from "./SubredditSelector.module.css";
 function SubredditSelector({ subreddit, setSubreddit }) {
   const subreddits = [
     "all",
-    "announcement",
+    "announcements",
     "funny",
     "AskReddit",
     "gaming",
     "worldnews",
     "todayilearned",
     "aww",
-    "Music",
+    "music",
     "memes",
     "movies",
     "science",
     "AIArt",
-    "antiwork"
+    "antiwork",
   ];
-
-  
 
   return (
     <select
       value={subreddit}
       onChange={(e) => setSubreddit(e.target.value)}
-      id="subreddit-select"
       className={styles.subredditSelect}
     >
-      <option value="">-- Select Subreddit --</option>
       {subreddits.map((sub) => (
         <option key={sub} value={sub}>
-          {sub}
+          r/{sub}
         </option>
       ))}
     </select>

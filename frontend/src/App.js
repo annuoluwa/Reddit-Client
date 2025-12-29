@@ -12,7 +12,7 @@ function App() {
     <div className="App">
       <Nav /> 
       <Routes>
-     <Route path='/'element={ <PostsPage /> } />
+     <Route path='/' element={ <PostsPage /> } />
      <Route path = '/post/:postId' element={<PostDetailPage />} />
      <Route path = '/about' element={<About />} />
           </Routes> 

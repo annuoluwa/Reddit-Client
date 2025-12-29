@@ -1,43 +1,45 @@
 import React, { useRef, useEffect, useState } from "react";
-import styles from './search.module.css'
-function SearchBar({searchTerm, setSearchTerm}) {
-    const[inputValue, setInputValue] = useState('');
-    const timer = useRef();
+import styles from "./search.module.css";
 
-    const handleChange =(e) =>{
+function SearchBar({ searchTerm, setSearchTerm }) {
+  const [inputValue, setInputValue] = useState(searchTerm || "");
+  const timerRef = useRef(null);
 
-        setInputValue(e.target.value)
-        //debounce timer setup
-if (timer.current){
-    clearTimeout(timer.current);
-}
-timer.current = setTimeout(() => { //300ms typical debounce delay to prevent unneccessary frequent update and excessive fecthes. 
-    setSearchTerm(e.target.value)
-}, 300);
-    };
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setInputValue(value);
 
-useEffect(() => { //cleanup of timer to prevent memory leaks.
+    if (timerRef.current) clearTimeout(timerRef.current);
+
+    timerRef.current = setTimeout(() => {
+      setSearchTerm(value.trim());
+    }, 300);
+  };
+
+  useEffect(() => {
     return () => {
-      if (timer.current) {
-        clearTimeout(timer.current);
-      }
+      if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, []);
-    
 
-    return(
-        <div 
-        className={styles.searchBar}>
-        <input 
-        className={styles.searchBar}
-        type="text" 
-        name="text" 
-        value={inputValue} 
+  return (
+    <div className={styles.searchWrapper}>
+      <input
+        type="text"
+        value={inputValue}
         onChange={handleChange}
-        placeholder="Search posts"/> 
-        <button type="submit" aria-label="Search" className={styles.button}>🔍</button>
-          </div>
-    )
+        placeholder="Search posts"
+        className={styles.searchInput}
+      />
+      <button
+        type="button"
+        aria-label="Search"
+        className={styles.button}
+      >
+        🔍
+      </button>
+    </div>
+  );
 }
 
 export default SearchBar;

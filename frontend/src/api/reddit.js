@@ -1,4 +1,4 @@
-const BASE_URL = process.env.REACT_APP_API_URL;
+const BASE_URL = "/api"; 
 
 async function fetchPopularPosts() {
   try {
@@ -6,13 +6,11 @@ async function fetchPopularPosts() {
     if (response.ok) {
       return await response.json();
     } else {
-      throw new Error('Request failed!');
+      throw new Error(`Request failed with status ${response.status}`);
     }
-
   } catch (error) {
-    console.log('Fetch error:', error);
+    console.error("Fetch error:", error);
   }
 }
 
 export default fetchPopularPosts;
-
