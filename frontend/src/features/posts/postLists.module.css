@@ -40,6 +40,16 @@
   box-shadow: none;
 }
 
+.loader {
+  flex: 1; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ebeff5;
+  min-height: 50vh; 
+}
+
+
 /* MOBILE RESPONSIVENESS*/
 @media (max-width: 600px) {
   .postListContainer {

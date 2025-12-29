@@ -79,10 +79,14 @@ function PostLists({ searchTerm, subreddit }) {
   };
 
   // Render search results if searching
+
   if (searchTerm && searchTerm.trim() !== "") {
-    if (searchLoading) return <div>Searching...</div>;
-    if (searchError) return <div>Error: {searchError}</div>;
-    if (postsToDisplay.length === 0) return <div>No posts found</div>;
+    if (searchLoading)
+      return <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '40vh' }}>Searching...</div>;
+    if (searchError)
+      return <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '40vh' }}>Error: {searchError}</div>;
+    if (postsToDisplay.length === 0)
+      return <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '40vh' }}>No posts found</div>;
     return (
       <div className={styles.postListContainer}>
         {postsToDisplay.map((post, index) => <Post key={post.id ?? index} post={post} />)}
@@ -91,8 +95,10 @@ function PostLists({ searchTerm, subreddit }) {
   }
 
   // Default: subreddit posts
-  if (showStatus === "loading" && postlists.length === 0) return <div>Loading...</div>;
-  if (showStatus === "failed") return <div>Error: {showError}</div>;
+  if (showStatus === "loading" && postlists.length === 0)
+    return <div className={styles.loading}>Loading...</div>;
+  if (showStatus === "failed")
+    return <div className={styles.error}>Error: {showError}</div>;
 
   return (
     <div className={styles.postListContainer}>

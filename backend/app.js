@@ -1,14 +1,3 @@
-// Catch-all 404 handler for unmatched routes (always returns JSON)
-app.use((req, res) => {
-  res.status(404).json({ error: 'Not found', path: req.path });
-});
-
-// Error handling middleware (always returns JSON)
-app.use((err, req, res, next) => {
-  console.error('Server error:', err);
-  res.status(500).json({ error: 'Server error', details: err.message });
-});
-
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -17,98 +6,105 @@ const fetch = require('node-fetch');
 
 const app = express();
 
-console.log('APP.JS STARTED');
-
-// Logging
 app.use(morgan('dev'));
 app.use(cors());
 
-// Catch uncaught exceptions and unhandled promise rejections
-process.on('uncaughtException', (err) => {
-  console.error('Uncaught Exception:', err && err.stack ? err.stack : err);
-});
-process.on('unhandledRejection', (reason) => {
-  console.error('Unhandled Rejection:', reason && reason.stack ? reason.stack : reason);
-});
 
-// Serve React build
-app.use(express.static(path.join(__dirname, '../reddit-client/build')));
 
-// Helper function for Reddit fetch
+
 const fetchRedditJSON = async (url) => {
   const response = await fetch(url, {
     headers: { 'User-Agent': 'reddit-proxy-bot/1.0' }
   });
+
   if (!response.ok) {
-    throw new Error(`Reddit fetch failed: ${response.status} ${response.statusText}`);
+    throw new Error(`Reddit fetch failed: ${response.status}`);
   }
+
   return response.json();
 };
 
-// Search route
+
+// Search
 app.get('/search', async (req, res) => {
   try {
-    const { q, limit, after } = req.query;
+    const { q, limit = 5, after } = req.query;
 
-    if (!q || typeof q !== 'string' || q.trim() === '') {
-      return res.status(400).json({ error: 'Missing or invalid search query' });
+    if (!q?.trim()) {
+      return res.status(400).json({ error: 'Invalid search query' });
     }
 
-    let limitValue = parseInt(limit, 10);
-    if (isNaN(limitValue) || limitValue < 1) limitValue = 5;
-    if (limitValue > 100) limitValue = 100;
+    const query =
+      `?q=${encodeURIComponent(q)}` +
+      `&limit=${Math.min(Number(limit) || 5, 100)}` +
+      `&sort=relevance&type=link` +
+      (after ? `&after=${after}` : '');
 
-    let queryString = `?q=${encodeURIComponent(q)}&limit=${limitValue}&sort=relevance&type=link`;
-    if (after) queryString += `&after=${after}`;
-
-    const url = `https://www.reddit.com/search.json${queryString}`;
-    const data = await fetchRedditJSON(url);
+    const data = await fetchRedditJSON(
+      `https://www.reddit.com/search.json${query}`
+    );
 
     res.json(data);
-  } catch (error) {
-    console.error('Error in /search:', error && error.stack ? error.stack : error);
-    res.status(500).json({ error: 'Failed to fetch search results' });
+  } catch (err) {
+    res.status(500).json({ error: 'Search failed' });
   }
 });
 
-// Subreddit posts route
+// Subreddit posts
 app.get('/reddit/:subreddit', async (req, res) => {
   try {
     const { subreddit } = req.params;
-    const { after, limit } = req.query;
+    const { after, limit = 5 } = req.query;
 
-    let limitValue = parseInt(limit, 10);
-    if (isNaN(limitValue) || limitValue < 1) limitValue = 5;
-    if (limitValue > 100) limitValue = 100;
+    const query =
+      `?limit=${Math.min(Number(limit) || 5, 100)}` +
+      (after ? `&after=${after}` : '');
 
-    const queryString = `?limit=${limitValue}${after ? `&after=${after}` : ''}`;
-    const url = `https://www.reddit.com/r/${subreddit}.json${queryString}`;
+    const data = await fetchRedditJSON(
+      `https://www.reddit.com/r/${subreddit}.json${query}`
+    );
 
-    const data = await fetchRedditJSON(url);
     res.json(data);
-  } catch (error) {
-    console.error('Error in /reddit/:subreddit:', error && error.stack ? error.stack : error);
-    res.status(500).json({ error: 'Failed to fetch subreddit posts' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch subreddit' });
   }
 });
 
-// Comments route
+// Comments
 app.get('/comments/:subreddit/:postId', async (req, res) => {
   try {
     const { subreddit, postId } = req.params;
-    const url = `https://www.reddit.com/r/${subreddit}/comments/${postId}.json`;
 
-    const data = await fetchRedditJSON(url);
+    const data = await fetchRedditJSON(
+      `https://www.reddit.com/r/${subreddit}/comments/${postId}.json`
+    );
+
     res.json(data);
-  } catch (error) {
-    console.error('Error in /comments/:subreddit/:postId:', error && error.stack ? error.stack : error);
+  } catch (err) {
     res.status(500).json({ error: 'Failed to fetch comments' });
   }
 });
 
-// Root route
+// Health check
 app.get('/', (req, res) => {
-  res.send('Reddit proxy server is running');
+  res.json({ status: 'Reddit proxy running' });
+});
+
+app.use(
+  express.static(
+    path.join(__dirname, '../reddit-client/build')
+  )
+);
+
+
+// Catch-all 404 handler for unmatched routes (always returns JSON)
+app.use((req, res) => {
+  res.status(404).json({ error: 'Not found', path: req.path });
+});
+
+// Error handling middleware (always returns JSON)
+app.use((err, req, res, next) => {
+  res.status(500).json({ error: 'Server error', details: err.message });
 });
 
 module.exports = app;
