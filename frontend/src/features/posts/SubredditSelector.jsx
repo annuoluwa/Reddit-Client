@@ -3,7 +3,7 @@ import styles from "./SubredditSelector.module.css";
 
 function SubredditSelector({ subreddit, setSubreddit }) {
   const subreddits = [
-    "all",
+    "popular",
     "announcements",
     "funny",
     "AskReddit",
