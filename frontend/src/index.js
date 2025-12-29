@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './store';
 import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
+import { ToastProvider } from './context/ToastContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,11 +15,14 @@ root.render(
   <React.StrictMode>
 <BrowserRouter>
     <Provider store={store}>
-    <App />
+      <ThemeProvider>
+        <ToastProvider>
+          <App />
+        </ToastProvider>
+      </ThemeProvider>
     </Provider>
       </BrowserRouter>
   </React.StrictMode>
-
 );
 
 reportWebVitals();
