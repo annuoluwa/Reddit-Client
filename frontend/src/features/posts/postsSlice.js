@@ -38,7 +38,7 @@ const postsSlice = createSlice({
     posts: [],
     status: "idle",
     error: null,
-    currentSubreddit: "all",
+    currentSubreddit: "popular",
     after: null,
     hasMore: true,
   },
