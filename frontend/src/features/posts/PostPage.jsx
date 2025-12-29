@@ -7,12 +7,12 @@ import { fetchPosts, setCurrentSubreddit } from "./postsSlice";
 
 function PostsPage() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [subreddit, setSubreddit] = useState('all');
+  const [subreddit, setSubreddit] = useState('popular');
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const currentSubreddit = subreddit || 'all';
+    const currentSubreddit = subreddit || 'popular';
     dispatch(setCurrentSubreddit(currentSubreddit)); // update currentSubreddit in redux
     dispatch(fetchPosts({ subreddit: currentSubreddit, after: null, limit: 5 })); // fetch initial posts
   }, [dispatch, subreddit]);
