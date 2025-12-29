@@ -1,11 +1,17 @@
+# netlify.toml
 [build]
-  # Tell Netlify where your serverless functions are
-  functions = "backend"
-  # Tell Netlify where your React build output will be
-  publish = "frontend/build"
+# Run build inside frontend folder
+base = "frontend"
+# The folder deploys after build
+publish = "build"
+# Command to build React app
+command = "npm install && npm run build"
 
-# Redirect all API requests to your Lambda function
+# Relative to base ("frontend"), so "../backend" points to backend folder
+functions = "../backend"
+
 [[redirects]]
-  from = "/api/*"                      # Front-end fetches /api/...
-  to = "/.netlify/functions/lambda/:splat"
-  status = 200
+# Redirect all API calls to lambda function
+from = "/api/*"
+to = "/.netlify/functions/lambda/:splat"
+status = 200
