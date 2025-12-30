@@ -1,8 +1,8 @@
 [build]
   base = ""
   publish = "frontend/build"
-  command = "npm install --prefix frontend && npm run build --prefix frontend"
-  functions = "backend"  # points to backend/lambda.js
+  command = "npm install --prefix frontend && npm install --prefix backend && npm run build --prefix frontend"
+  functions = "backend"
 
 [[redirects]]
   from = "/api/*"
