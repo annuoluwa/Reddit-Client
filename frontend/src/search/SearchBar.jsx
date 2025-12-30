@@ -23,13 +23,12 @@ function SearchBar({ searchTerm, setSearchTerm }) {
   }, []);
 
   return (
-    <div className={styles.searchWrapper}>
+    <div className={styles.searchBar}>
       <input
         type="text"
         value={inputValue}
         onChange={handleChange}
         placeholder="Search posts"
-        className={styles.searchInput}
       />
       <button
         type="button"

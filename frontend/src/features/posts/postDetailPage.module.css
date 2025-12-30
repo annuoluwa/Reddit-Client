@@ -13,42 +13,45 @@ body {
 }
 
 .postData {
-  background-color: #111827;
-  padding: 1.5rem;
-  border-radius: 10px;
   max-width: 800px;
-  width: 95%;
   margin: 2rem auto;
-  word-wrap: break-word; 
-  overflow-wrap: break-word;
+  padding: 1.5rem;
+  background-color: var(--bg-secondary);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .postTitle {
-  color: #fafafa;
+  color: var(--text-primary);
   font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-}
-
-.postAuthor {
-  color: #ffffff;
-  font-size: 0.95rem;
+  font-weight: bold;
   margin-bottom: 1rem;
-  display: block;
+  line-height: 1.4;
 }
 
-.postSelfText {
-  color: #a7c1f7;
+.postMeta {
+  display: flex;
+  gap: 1rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.postContent {
+  color: var(--text-primary);
   font-size: 1rem;
   line-height: 1.6;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .postImage {
-  width: 150px;
-  max-width: 100%; 
+  width: 100%;
+  max-width: 600px;
   height: auto;
-  margin-bottom: 1rem;
   border-radius: 8px;
+  margin: 1rem 0;
 }
 
 .comments {
@@ -56,40 +59,47 @@ body {
   font-size: 0.95rem;
 }
 
+.commentSection {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.commentTitle {
+  color: var(--text-primary);
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
 .commentUL {
-  padding: 0 1.5rem 1rem 2rem;
-  text-align: justify;
+  padding: 0.5rem 0;
+  color: var(--text-secondary);
+  word-break: break-word;
   list-style: none;
-  margin-top: 0.2rem;
-  color: #7ea5f3;
-  word-break: break-word; 
 }
 
 .commentAuthor {
-  color: #f6f9fd;
-  font-weight: 500;
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 @media (max-width: 600px) {
   .postData {
     padding: 1rem;
-    width: 95%;
+    margin: 1rem;
   }
 
   .postTitle {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
-  .postSelfText {
+  .postMeta {
+    font-size: 0.85rem;
+  }
+
+  .postContent {
     font-size: 0.95rem;
-  }
-
-  .postImage {
-    width: 120px;
-  }
-
-  .commentUL {
-    padding: 0 1rem 1rem 1.2rem;
   }
 }
 

@@ -4,11 +4,12 @@ const BASE_URL = "/api";
 
 export const fetchPosts = createAsyncThunk(
   "posts/fetchPosts",
-  async ({ subreddit, after = "", limit = 5 }, { rejectWithValue }) => {
+  async ({ subreddit, after = "", limit = 5, sort = "hot" }, { rejectWithValue }) => {
     try {
       const afterQuery = after ? `&after=${after}` : "";
+      const sortQuery = sort ? `&sort=${sort}` : "";
       const response = await fetch(
-        `${BASE_URL}/reddit/${subreddit}?limit=${limit}${afterQuery}`
+        `${BASE_URL}/reddit/${subreddit}?limit=${limit}${afterQuery}${sortQuery}`
       );
 
       if (!response.ok) {
@@ -50,6 +51,7 @@ const postsSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(fetchPosts.pending, (state, action) => {
+        window.dispatchEvent(new Event('fetch-start'));
         state.status = "loading";
         state.error = null;
         if (!action.meta.arg.after) {
@@ -59,6 +61,7 @@ const postsSlice = createSlice({
         }
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
+        window.dispatchEvent(new Event('fetch-end'));
         const isAppend = Boolean(action.meta.arg.after);
         state.posts = isAppend
           ? [...new Map([...state.posts, ...action.payload.posts].map(p => [p.id, p])).values()]
@@ -68,6 +71,7 @@ const postsSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(fetchPosts.rejected, (state, action) => {
+        window.dispatchEvent(new Event('fetch-end'));
         state.status = "failed";
         state.error = action.payload || "Fetch failed";
         state.posts = [];

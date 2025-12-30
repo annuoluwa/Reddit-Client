@@ -1,24 +1,30 @@
-.logo{
+.logo {
     width: 100px;
+    transition: filter 0.3s ease;
 }
 
-.nav{
-display: flex;
-justify-content: space-between;
-align-items: center;
-width: 100%;
-background-color: var(--glass-bg);
-backdrop-filter: blur(20px);
--webkit-backdrop-filter: blur(20px);
-height: 7%;
-padding: 0.8rem 2rem;
-box-sizing: border-box;
-position: sticky;
-top: 0;
-z-index: 100;
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-border-bottom: 1px solid var(--glass-border);
-transition: all 0.3s ease;
+[data-theme="light"] .logo {
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4)) 
+            drop-shadow(0 0 8px rgba(0, 0, 0, 0.2));
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    height: 7%;
+    padding: 0.8rem 2rem;
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--glass-border);
+    transition: all 0.3s ease;
 }
 
 [data-theme="light"] .nav {
@@ -32,13 +38,12 @@ transition: all 0.3s ease;
     gap: 1.5rem;
 }
 
-.link{
+.link {
     display: flex;
     text-decoration: none;
     gap: 0.5rem;
     color: var(--text-primary);
     transition: opacity 0.2s ease;
-    
 }
 
 .link:hover {
@@ -67,21 +72,15 @@ transition: all 0.3s ease;
 @media (max-width: 600px) {
   .nav {
     flex-direction: row; 
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.8rem 1rem;
-  }
-
-  .navLinks {
-    flex-wrap: wrap; 
-    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    gap: 1rem;
   }
 
   .logo {
-    width: 80px;
+    width: 70px;
   }
 
-  .navLinks a {
+  .link {
     font-size: 0.9rem;
   }
 }

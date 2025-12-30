@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import styles from './postDetailPage.module.css';
 
-// relative path to Netlify Function
 const BASE_URL = "/api";
 
 function PostDetailPage() {
-  const { postId } = useParams(); // grab postId from url
+  const { postId } = useParams();
   const location = useLocation();
   const subreddit = location.state?.subreddit;
 
@@ -32,7 +31,6 @@ function PostDetailPage() {
 
         const data = await response.json();
 
-        // Reddit API returns an array: [postData, comments]
         setPostData(data[0]?.data?.children[0]?.data);
         setComments(data[1]?.data?.children || []);
         setLoading(false);
@@ -50,7 +48,6 @@ function PostDetailPage() {
   if (error) return <p>{error}</p>;
   if (!postData) return <p>No post found</p>;
 
-  // Validate thumbnail URL
   const invalidThumbValues = ['self', 'default', 'nsfw', 'image', ''];
   const isValidImageUrl = (url) =>
     url && !invalidThumbValues.includes(url) && (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//'));
@@ -61,8 +58,13 @@ function PostDetailPage() {
   return (
     <div className={styles.postData}>
       <h2 className={styles.postTitle}>{postData.title}</h2>
-      <p className={styles.postAuthor}>Author: {postData.author}</p>
-      <p className={styles.postSelfText}>{postData.selftext}</p>
+      <div className={styles.postMeta}>
+        <span>Author: {postData.author}</span>
+        <span>r/{postData.subreddit}</span>
+      </div>
+      {postData.selftext && (
+        <div className={styles.postContent}>{postData.selftext}</div>
+      )}
       <img
         className={styles.postImage}
         src={imageUrl}
@@ -72,16 +74,18 @@ function PostDetailPage() {
           e.target.src = '/no-image.png';
         }}
       />
-      <h3 className={styles.comments}>Comments:</h3>
-      <ul className={styles.commentUL}>
-        {comments.map((comment) =>
-          comment.kind === 't1' ? (
-            <li key={comment.data.id} className={styles.commentUL}>
-              <strong className={styles.commentAuthor}>{comment.data.author}</strong>: {comment.data.body}
-            </li>
-          ) : null
-        )}
-      </ul>
+      <div className={styles.commentSection}>
+        <h3 className={styles.commentTitle}>Comments:</h3>
+        <ul>
+          {comments.map((comment) =>
+            comment.kind === 't1' ? (
+              <li key={comment.data.id} className={styles.commentUL}>
+                <strong className={styles.commentAuthor}>{comment.data.author}</strong>: {comment.data.body}
+              </li>
+            ) : null
+          )}
+        </ul>
+      </div>
     </div>
   );
 }

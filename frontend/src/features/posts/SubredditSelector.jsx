@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./SubredditSelector.module.css";
 
 function SubredditSelector({ subreddit, setSubreddit }) {
+  const [isOpen, setIsOpen] = useState(false);
   const [isCustom, setIsCustom] = useState(false);
-  const [customValue, setCustomValue] = useState('');
-  
+  const [customValue, setCustomValue] = useState("");
+  const dropdownRef = useRef(null);
+
   const subreddits = [
     "popular",
     "announcements",
@@ -20,16 +22,26 @@ function SubredditSelector({ subreddit, setSubreddit }) {
     "science",
     "AIArt",
     "antiwork",
-    "custom"
+    "custom",
   ];
 
-  const handleChange = (e) => {
-    const value = e.target.value;
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleSelect = (value) => {
     if (value === "custom") {
       setIsCustom(true);
     } else {
       setIsCustom(false);
       setSubreddit(value);
+      setIsOpen(false);
     }
   };
 
@@ -37,25 +49,40 @@ function SubredditSelector({ subreddit, setSubreddit }) {
     e.preventDefault();
     if (customValue.trim()) {
       setSubreddit(customValue.trim());
+      setIsCustom(false);
+      setIsOpen(false);
     }
   };
 
   return (
     <div className={styles.selectorContainer}>
-      <select
-        value={isCustom ? "custom" : subreddit}
-        onChange={handleChange}
-        id="subreddit-select"
-        className={styles.subredditSelect}
-      >
-        <option value="">-- Select Subreddit --</option>
-        {subreddits.map((sub) => (
-          <option key={sub} value={sub}>
-            {sub === "custom" ? "✏️ Custom..." : sub}
-          </option>
-        ))}
-      </select>
-      
+      <div className={styles.dropdown} ref={dropdownRef}>
+        <button
+          className={styles.dropdownToggle}
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Select subreddit"
+        >
+          {isCustom
+            ? customValue || "Custom..."
+            : subreddit || "Select Subreddit"}
+          <span className={styles.arrow}>▼</span>
+        </button>
+
+        {isOpen && (
+          <div className={styles.dropdownMenu}>
+            {subreddits.map((sub) => (
+              <button
+                key={sub}
+                className={styles.dropdownItem}
+                onClick={() => handleSelect(sub)}
+              >
+                {sub === "custom" ? "✏️ Custom..." : sub}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
       {isCustom && (
         <form onSubmit={handleCustomSubmit} className={styles.customForm}>
           <input
@@ -66,7 +93,9 @@ function SubredditSelector({ subreddit, setSubreddit }) {
             className={styles.customInput}
             autoFocus
           />
-          <button type="submit" className={styles.customButton}>Go</button>
+          <button type="submit" className={styles.customButton}>
+            Go
+          </button>
         </form>
       )}
     </div>
