@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 const morgan = require('morgan');
 const fetch = require('node-fetch');
 
@@ -9,9 +8,7 @@ const app = express();
 app.use(morgan('dev'));
 app.use(cors());
 
-
-
-
+// Helper function for Reddit fetch
 const fetchRedditJSON = async (url) => {
   const response = await fetch(url, {
     headers: { 'User-Agent': 'reddit-proxy-bot/1.0' }
@@ -24,7 +21,6 @@ const fetchRedditJSON = async (url) => {
   return response.json();
 };
 
-
 // Search
 app.get('/search', async (req, res) => {
   try {
@@ -34,9 +30,11 @@ app.get('/search', async (req, res) => {
       return res.status(400).json({ error: 'Invalid search query' });
     }
 
+    const safeLimit = Math.min(Number(limit) || 5, 100);
+
     const query =
       `?q=${encodeURIComponent(q)}` +
-      `&limit=${Math.min(Number(limit) || 5, 100)}` +
+      `&limit=${safeLimit}` +
       `&sort=relevance&type=link` +
       (after ? `&after=${after}` : '');
 
@@ -56,8 +54,10 @@ app.get('/reddit/:subreddit', async (req, res) => {
     const { subreddit } = req.params;
     const { after, limit = 5 } = req.query;
 
+    const safeLimit = Math.min(Number(limit) || 5, 100);
+
     const query =
-      `?limit=${Math.min(Number(limit) || 5, 100)}` +
+      `?limit=${safeLimit}` +
       (after ? `&after=${after}` : '');
 
     const data = await fetchRedditJSON(
@@ -89,13 +89,6 @@ app.get('/comments/:subreddit/:postId', async (req, res) => {
 app.get('/', (req, res) => {
   res.json({ status: 'Reddit proxy running' });
 });
-
-app.use(
-  express.static(
-    path.join(__dirname, '../reddit-client/build')
-  )
-);
-
 
 // Catch-all 404 handler for unmatched routes (always returns JSON)
 app.use((req, res) => {
