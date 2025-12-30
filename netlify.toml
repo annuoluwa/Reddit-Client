@@ -1,13 +1,10 @@
 [build]
-base = "frontend"
-publish = "build"
-command = "npm install && npm run build"
-functions = "../backend"  # relative to base = frontend
+  base = ""
+  publish = "frontend/build"
+  command = "npm install --prefix frontend && npm run build --prefix frontend"
+  functions = "backend"  # points to backend/lambda.js
 
 [[redirects]]
-from = "/api/*"
-to = "/.netlify/functions/lambda/:splat"
-status = 200
-
-[[plugins]]
-package = "@netlify/plugin-functions-install-core"
+  from = "/api/*"
+  to = "/.netlify/functions/lambda/:splat"
+  status = 200
